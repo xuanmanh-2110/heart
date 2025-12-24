@@ -106,8 +106,9 @@ var init = function () {
         };
     };
 
-    // Khởi tạo một số trái tim
-    for (var h = 0; h < 15; h++) {
+    // Khởi tạo một số trái tim (giảm cho mobile)
+    var initialHearts = mobile ? 8 : 15;
+    for (var h = 0; h < initialHearts; h++) {
         var heart = createFloatingHeart();
         heart.y = rand() * height;
         floatingHearts.push(heart);
@@ -169,8 +170,9 @@ var init = function () {
         };
     };
 
-    // Khởi tạo một số chữ
-    for (var t = 0; t < 3; t++) {
+    // Khởi tạo một số chữ (giảm cho mobile)
+    var initialTexts = mobile ? 2 : 3;
+    for (var t = 0; t < initialTexts; t++) {
         var text = createFloatingText();
         text.y = rand() * height;
         floatingTexts.push(text);
@@ -181,9 +183,11 @@ var init = function () {
         ctx.save();
         ctx.globalAlpha = opacity;
 
-        // Hiệu ứng phát sáng
-        ctx.shadowBlur = 15;
-        ctx.shadowColor = shadowColor;
+        // Hiệu ứng phát sáng (giảm blur cho mobile)
+        if (!mobile) {
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = shadowColor;
+        }
 
         ctx.fillStyle = color + opacity + ')';
         ctx.font = 'bold ' + fontSize + 'px Arial, sans-serif';
@@ -201,14 +205,12 @@ var init = function () {
         ctx.fillStyle = mobile ? "rgba(0,0,0,.05)" : "rgba(0,0,0,.1)";
         ctx.fillRect(0, 0, width, height);
 
-        // Vẽ và update các trái tim bay lên
+        // Update các trái tim bay lên (không vẽ ngay)
         for (var j = floatingHearts.length - 1; j >= 0; j--) {
             var fh = floatingHearts[j];
             fh.y -= fh.speed;
             fh.angle += fh.swaySpeed;
             fh.x += Math.sin(fh.angle) * fh.sway;
-
-            drawSmallHeart(fh.x, fh.y, fh.size, fh.color, fh.opacity);
 
             // Tạo lại trái tim khi nó bay ra khỏi màn hình
             if (fh.y < -30) {
@@ -216,22 +218,22 @@ var init = function () {
             }
         }
 
-        // Tạo trái tim mới ngẫu nhiên
-        if (rand() < 0.02) {
+        // Tạo trái tim mới ngẫu nhiên (giảm tần suất và số lượng tối đa cho mobile)
+        var heartSpawnRate = mobile ? 0.01 : 0.02;
+        var maxHearts = mobile ? 15 : 30;
+        if (rand() < heartSpawnRate) {
             floatingHearts.push(createFloatingHeart());
-            if (floatingHearts.length > 30) {
+            if (floatingHearts.length > maxHearts) {
                 floatingHearts.shift();
             }
         }
 
-        // Vẽ và update các chữ "Ngọc Linh" bay lên
+        // Update các chữ "Ngọc Linh" bay lên (không vẽ ngay)
         for (var m = floatingTexts.length - 1; m >= 0; m--) {
             var ft = floatingTexts[m];
             ft.y -= ft.speed;
             ft.angle += ft.swaySpeed;
             ft.x += Math.sin(ft.angle) * ft.sway;
-
-            drawFloatingText(ft.x, ft.y, ft.fontSize, ft.opacity, ft.color, ft.shadowColor);
 
             // Tạo lại chữ khi nó bay ra khỏi màn hình
             if (ft.y < -50) {
@@ -239,14 +241,28 @@ var init = function () {
             }
         }
 
-        // Tạo chữ mới ngẫu nhiên
-        if (rand() < 0.015) {
+        // Tạo chữ mới ngẫu nhiên (giảm tần suất và số lượng tối đa cho mobile)
+        var textSpawnRate = mobile ? 0.008 : 0.015;
+        var maxTexts = mobile ? 10 : 20;
+        if (rand() < textSpawnRate) {
             floatingTexts.push(createFloatingText());
-            if (floatingTexts.length > 20) {
+            if (floatingTexts.length > maxTexts) {
                 floatingTexts.shift();
             }
         }
 
+        // Vẽ trái tim nhỏ và chữ trước (layer dưới)
+        for (var j = 0; j < floatingHearts.length; j++) {
+            var fh = floatingHearts[j];
+            drawSmallHeart(fh.x, fh.y, fh.size, fh.color, fh.opacity);
+        }
+
+        for (var m = 0; m < floatingTexts.length; m++) {
+            var ft = floatingTexts[m];
+            drawFloatingText(ft.x, ft.y, ft.fontSize, ft.opacity, ft.color, ft.shadowColor);
+        }
+
+        // Vẽ trái tim lớn chính sau (layer trên)
         for (i = e.length; i--;) {
             var u = e[i];
             var q = targetPoints[u.q];
