@@ -1,44 +1,4 @@
-* {
-    margin: 0;
+body {
     padding: 0;
-    box-sizing: border-box;
-}
-
-html,
-body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-color: #000;
-}
-
-canvas {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-    background-color: rgba(0, 0, 0, .2);
-}
-
-/* Responsive cho mobile nhỏ */
-@media only screen and (max-width: 480px) {
-    canvas {
-        background-color: rgba(0, 0, 0, .3);
-    }
-}
-
-/* Responsive cho tablet */
-@media only screen and (min-width: 481px) and (max-width: 1024px) {
-    canvas {
-        background-color: rgba(0, 0, 0, .25);
-    }
-}
-
-/* Chặn scroll trên mobile */
-body {
-    position: fixed;
-    width: 100%;
-    height: 100%;
+    margin: 0;
 }
