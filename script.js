@@ -28,9 +28,9 @@ for (i = 0; i < Y; i += 0.8)
 for (i = 0; i < v;) {
     x = R() * WIDTH;
     y = R() * HEIGHT;
-    H = 80 * (i / v) + Math.random * 100;
-    S = 40 * R() + 60;
-    B = 60 * R() + 20;
+    H = 320 + (i / v) * 40;  // Màu từ đỏ (0) sang hồng (340-360)
+    S = 80 + R() * 20;       // Độ bão hòa cao
+    B = 50 + R() * 30;       // Độ sáng vừa phải
     f = [];
     for (k = 0; k < v;) f[k++] = {
         x: x,
@@ -71,7 +71,7 @@ function createFlyingHeart() {
     var heart = {
         x: R() * WIDTH,
         y: HEIGHT + 30,
-        size: R() * 15 + 10,  // Kích thước nhỏ hơn: 10-25px
+        size: R() * 10 + 8,  // Kích thước nhỏ hơn: 8-18px
         speed: R() * 2 + 1,
         opacity: 1,
         swing: R() * Math.PI * 2,
@@ -119,7 +119,7 @@ function createFlyingText() {
         opacity: 1,
         swing: R() * Math.PI * 2,
         swingSpeed: R() * 0.03 + 0.01,
-        fontSize: R() * 15 + 20,
+        fontSize: R() * 10 + 16,  // Kích thước nhỏ hơn: 16-26px
         color: colors[~~(R() * colors.length)]
     };
     flyingTexts.push(text);
