@@ -170,7 +170,7 @@ var init = function () {
     };
 
     // Khởi tạo một số chữ
-    for (var t = 0; t < 8; t++) {
+    for (var t = 0; t < 4; t++) {
         var text = createFloatingText();
         text.y = rand() * height;
         floatingTexts.push(text);
