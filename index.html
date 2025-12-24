@@ -9,7 +9,20 @@
 </head>
 
 <body>
-    <canvas id="alx"></canvas>
+    <!-- Màn hình nhập mật khẩu -->
+    <div id="password-screen">
+        <div class="password-container">
+            <h2>Chào người đẹp</h2>
+            <h1>nhập mật khẩu</h1>
+            <input type="password" id="password-input" placeholder="" maxlength="4">
+            <button id="submit-btn">Xác nhận</button>
+            <p id="error-msg"></p>
+        </div>
+    </div>
+
+    <!-- Canvas trái tim (ẩn ban đầu) -->
+    <canvas id="alx" style="display: none;"></canvas>
+
     <script src="script.js"></script>
 </body>
 

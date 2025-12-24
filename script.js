@@ -1,5 +1,77 @@
-var c = document.getElementById('alx');
+// Xử lý mật khẩu
+var passwordScreen = document.getElementById('password-screen');
+var passwordInput = document.getElementById('password-input');
+var submitBtn = document.getElementById('submit-btn');
+var errorMsg = document.getElementById('error-msg');
+var canvas = document.getElementById('alx');
 
+// Hàm kiểm tra mật khẩu
+function checkPassword() {
+    var password = passwordInput.value;
+    if (password === '2710') {
+        // Mật khẩu đúng - ẩn màn hình nhập mật khẩu và hiển thị canvas
+        passwordScreen.style.display = 'none';
+        canvas.style.display = 'block';
+        // Bắt đầu animation trái tim
+        startHeartAnimation();
+    } else {
+        // Mật khẩu sai
+        errorMsg.textContent = 'Mật khẩu không đúng!';
+        passwordInput.value = '';
+        passwordInput.style.borderColor = '#e74c3c';
+        setTimeout(function () {
+            passwordInput.style.borderColor = '#ddd';
+            errorMsg.textContent = '';
+        }, 2000);
+    }
+}
+
+// Xử lý sự kiện click nút
+submitBtn.addEventListener('click', checkPassword);
+
+// Xử lý sự kiện nhấn Enter
+passwordInput.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        checkPassword();
+    }
+});
+
+// Focus vào input khi trang load
+window.addEventListener('load', function () {
+    passwordInput.focus();
+    createStarsOnPasswordScreen();
+});
+
+// Tạo ngôi sao tĩnh ngẫu nhiên trên màn hình nhập mật khẩu
+function createStarsOnPasswordScreen() {
+    var colors = ['#fd7bbcff', 'white']; // Chỉ dùng hồng nhạt và trắng
+    var numStars = 30; // Số lượng ngôi sao
+
+    for (var i = 0; i < numStars; i++) {
+        var star = document.createElement('div');
+        var size = Math.random() * 15 + 15; // 15-30px
+        var color = colors[Math.floor(Math.random() * colors.length)];
+
+        star.className = 'star-shape';
+        star.style.position = 'absolute';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.pointerEvents = 'none';
+        star.style.zIndex = '1001';
+        star.style.opacity = Math.random() * 0.4 + 0.4; // 0.4-0.8
+        star.style.filter = 'drop-shadow(0 0 ' + (size / 2) + 'px ' + color + ')';
+
+        // Tạo hình ngôi sao 5 cánh bằng clip-path
+        star.style.background = color;
+        star.style.clipPath = 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)';
+
+        passwordScreen.appendChild(star);
+    }
+}
+
+var c = canvas;
 var b = document.body;
 var a = c.getContext('2d');
 
@@ -136,73 +208,76 @@ function drawFlyingText(text) {
     a.restore();
 }
 
-setInterval(function () {
-    a.fillStyle = "rgba(0,0,0,.2)";
-    a.fillRect(0, 0, WIDTH, HEIGHT);
+// Hàm bắt đầu animation - chỉ chạy sau khi nhập đúng mật khẩu
+function startHeartAnimation() {
+    setInterval(function () {
+        a.fillStyle = "rgba(0,0,0,.2)";
+        a.fillRect(0, 0, WIDTH, HEIGHT);
 
-    // Vẽ hiệu ứng trái tim ban đầu
-    for (i = v; i--;) {
-        f = e[i];
-        u = f[0];
-        q = h[u.q];
-        D = u.x - q[0];
-        E = u.y - q[1];
-        G = Math.sqrt(D * D + E * E);
-        10 > G && (0.95 < R() ? u.q = ~~(R() * v) : (0.99 < R() && (u.D *= -1), u.q += u.D, u.q %= v, 0 > u.q && (u.q += v)));
-        u.X += -D / G * u.S;
-        u.Y += -E / G * u.S;
-        u.x += u.X;
-        u.y += u.Y;
-        path(u);
-        u.X *= u.F;
-        u.Y *= u.F;
-        for (k = 0; k < v - 1;) T = f[k], N = f[++k], N.x -= 0.7 * (N.x - T.x), N.y -= 0.7 * (N.y - T.y), path(N)
-    }
-
-    // Cập nhật và vẽ các trái tim bay lên
-    for (var j = flyingHearts.length - 1; j >= 0; j--) {
-        var heart = flyingHearts[j];
-
-        heart.y -= heart.speed;
-        heart.swing += heart.swingSpeed;
-        heart.x += Math.sin(heart.swing) * 0.5;
-
-        if (heart.y < HEIGHT / 2) {
-            heart.opacity -= 0.005;
+        // Vẽ hiệu ứng trái tim ban đầu
+        for (i = v; i--;) {
+            f = e[i];
+            u = f[0];
+            q = h[u.q];
+            D = u.x - q[0];
+            E = u.y - q[1];
+            G = Math.sqrt(D * D + E * E);
+            10 > G && (0.95 < R() ? u.q = ~~(R() * v) : (0.99 < R() && (u.D *= -1), u.q += u.D, u.q %= v, 0 > u.q && (u.q += v)));
+            u.X += -D / G * u.S;
+            u.Y += -E / G * u.S;
+            u.x += u.X;
+            u.y += u.Y;
+            path(u);
+            u.X *= u.F;
+            u.Y *= u.F;
+            for (k = 0; k < v - 1;) T = f[k], N = f[++k], N.x -= 0.7 * (N.x - T.x), N.y -= 0.7 * (N.y - T.y), path(N)
         }
 
-        drawFlyingHeart(heart);
+        // Cập nhật và vẽ các trái tim bay lên
+        for (var j = flyingHearts.length - 1; j >= 0; j--) {
+            var heart = flyingHearts[j];
 
-        if (heart.y < -100 || heart.opacity <= 0) {
-            flyingHearts.splice(j, 1);
+            heart.y -= heart.speed;
+            heart.swing += heart.swingSpeed;
+            heart.x += Math.sin(heart.swing) * 0.5;
+
+            if (heart.y < HEIGHT / 2) {
+                heart.opacity -= 0.005;
+            }
+
+            drawFlyingHeart(heart);
+
+            if (heart.y < -100 || heart.opacity <= 0) {
+                flyingHearts.splice(j, 1);
+            }
         }
-    }
 
-    // Cập nhật và vẽ các chữ bay lên
-    for (var m = flyingTexts.length - 1; m >= 0; m--) {
-        var txt = flyingTexts[m];
+        // Cập nhật và vẽ các chữ bay lên
+        for (var m = flyingTexts.length - 1; m >= 0; m--) {
+            var txt = flyingTexts[m];
 
-        txt.y -= txt.speed;
-        txt.swing += txt.swingSpeed;
-        txt.x += Math.sin(txt.swing) * 0.3;
+            txt.y -= txt.speed;
+            txt.swing += txt.swingSpeed;
+            txt.x += Math.sin(txt.swing) * 0.3;
 
-        if (txt.y < HEIGHT / 2) {
-            txt.opacity -= 0.003;
+            if (txt.y < HEIGHT / 2) {
+                txt.opacity -= 0.003;
+            }
+
+            drawFlyingText(txt);
+
+            if (txt.y < -100 || txt.opacity <= 0) {
+                flyingTexts.splice(m, 1);
+            }
         }
+    }, 25);
 
-        drawFlyingText(txt);
+    // Tạo trái tim bay lên định kỳ
+    setInterval(createFlyingHeart, 300);
 
-        if (txt.y < -100 || txt.opacity <= 0) {
-            flyingTexts.splice(m, 1);
-        }
-    }
-}, 25);
-
-// Tạo trái tim bay lên định kỳ
-setInterval(createFlyingHeart, 300);
-
-// Tạo chữ "Ngọc Linh" bay lên định kỳ
-setInterval(createFlyingText, 800);
+    // Tạo chữ "Ngọc Linh" bay lên định kỳ
+    setInterval(createFlyingText, 800);
+}
 
 // Xử lý resize
 window.addEventListener('resize', function () {
