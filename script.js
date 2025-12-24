@@ -13,24 +13,17 @@ R = Math.random;
 C = Math.cos;
 Y = 6.3;
 
-// Hàm tính toán lại vị trí trái tim ở giữa màn hình
-function calculateHeartPath() {
-    h = [];
-    for (i = 0; i < Y; i += 0.2)
-        h.push([WIDTH / 2 + 180 * Math.pow(Math.sin(i), 3),
-        HEIGHT / 2 + 13 * -(15 * C(i) - 5 * C(2 * i) - 2 * C(3 * i) - C(4 * i))]);
+for (i = 0; i < Y; i += 0.2)
+    h.push([WIDTH / 2 + 180 * Math.pow(Math.sin(i), 3),
+    HEIGHT / 2 + 13 * -(15 * C(i) - 5 * C(2 * i) - 2 * C(3 * i) - C(4 * i))]);
 
-    for (i = 0; i < Y; i += 0.4)
-        h.push([WIDTH / 2 + 130 * Math.pow(Math.sin(i), 3),
-        HEIGHT / 2 + 9 * -(15 * C(i) - 5 * C(2 * i) - 2 * C(3 * i) - C(4 * i))]);
+for (i = 0; i < Y; i += 0.4)
+    h.push([WIDTH / 2 + 130 * Math.pow(Math.sin(i), 3),
+    HEIGHT / 2 + 9 * -(15 * C(i) - 5 * C(2 * i) - 2 * C(3 * i) - C(4 * i))]);
 
-    for (i = 0; i < Y; i += 0.8)
-        h.push([WIDTH / 2 + 75 * Math.pow(Math.sin(i), 3),
-        HEIGHT / 2 + 5 * -(15 * C(i) - 5 * C(2 * i) - 2 * C(3 * i) - C(4 * i))]);
-}
-
-// Tính toán lần đầu
-calculateHeartPath();
+for (i = 0; i < Y; i += 0.8)
+    h.push([WIDTH / 2 + 75 * Math.pow(Math.sin(i), 3),
+    HEIGHT / 2 + 5 * -(15 * C(i) - 5 * C(2 * i) - 2 * C(3 * i) - C(4 * i))]);
 
 for (i = 0; i < v;) {
     x = R() * WIDTH;
@@ -215,6 +208,4 @@ setInterval(createFlyingText, 800);
 window.addEventListener('resize', function () {
     WIDTH = c.width = innerWidth;
     HEIGHT = c.height = innerHeight;
-    // Tính toán lại vị trí trái tim ở giữa màn hình
-    calculateHeartPath();
 });
