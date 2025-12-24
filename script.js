@@ -198,7 +198,7 @@ var init = function () {
         var n = -Math.cos(time);
         pulse((1 + n) * .5, (1 + n) * .5);
         time += ((Math.sin(time)) < 0 ? 9 : (n > 0.8) ? .2 : 1) * config.timeDelta;
-        ctx.fillStyle = "rgba(0,0,0,.1)";
+        ctx.fillStyle = mobile ? "rgba(0,0,0,.05)" : "rgba(0,0,0,.1)";
         ctx.fillRect(0, 0, width, height);
 
         // Vẽ và update các trái tim bay lên
